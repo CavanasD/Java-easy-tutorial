@@ -2,7 +2,16 @@ package com.n1n3bird.oop;
 
 public class Student{
     String name;
+    int age;
 
+    public void easyGotFlag(){
+        System.out.println(this.name + " cat Flag easily!");
+
+    }
+
+
+
+    // 方法复习小节所用方法
     public static void changeNameToNailong(Student stu) {
         stu.name = "Nailong";
     }

@@ -3,7 +3,8 @@ package com.n1n3bird.oop;
 import static com.n1n3bird.oop.Student.changeNameToNailong;
 
 public class FunnyArgs {
-    public static void main(String[] args) {
+
+    public static void FunnyArgsMain(String[] args) {
         // 值传递
         int a = 1;
         System.out.println(a);
