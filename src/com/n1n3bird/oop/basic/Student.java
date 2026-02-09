@@ -1,15 +1,13 @@
-package com.n1n3bird.oop;
+package com.n1n3bird.oop.basic;
 
 public class Student{
     String name;
     int age;
-
+    // Creation of Class and Object
     public void easyGotFlag(){
         System.out.println(this.name + " cat Flag easily!");
 
     }
-
-
 
     // 方法复习小节所用方法
     public static void changeNameToNailong(Student stu) {

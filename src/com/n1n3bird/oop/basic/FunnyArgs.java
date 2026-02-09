@@ -1,6 +1,6 @@
-package com.n1n3bird.oop;
+package com.n1n3bird.oop.basic;
 
-import static com.n1n3bird.oop.Student.changeNameToNailong;
+import static com.n1n3bird.oop.basic.Student.changeNameToNailong;
 
 public class FunnyArgs {
 

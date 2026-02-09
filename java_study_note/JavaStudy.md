@@ -664,28 +664,31 @@ OOP本质：**以类的方式组织代码，以对象的组织封装数据**
 注意非static要实例化就行了
 ### 参数传递
 我写了例子
+
 ```java
-package com.n1n3bird.oop;  
-  
-import static com.n1n3bird.oop.Student.changeNameToNailong;  
-  
-public class FunnyArgs {  
-    public static void main(String[] args) {  
+package com.n1n3bird.oop;
+
+import com.n1n3bird.oop.basic.Student;
+
+import static com.n1n3bird.oop.basic.Student.changeNameToNailong;
+
+public class FunnyArgs {
+    public static void main(String[] args) {
         // 值传递  
-        int a = 1;  
-        System.out.println(a);  
-        changeValue(a);  
-        System.out.println(a);  
+        int a = 1;
+        System.out.println(a);
+        changeValue(a);
+        System.out.println(a);
         //引用传递  
-        Student n1n3bird = new Student();  
-        System.out.println(n1n3bird.name);  
-        changeNameToNailong(n1n3bird);  
-        System.out.println(n1n3bird.name);  
-    }  
-  
-    private static void changeValue(int a) {  
-        a = 100;  
-    }  
+        Student n1n3bird = new Student();
+        System.out.println(n1n3bird.name);
+        changeNameToNailong(n1n3bird);
+        System.out.println(n1n3bird.name);
+    }
+
+    private static void changeValue(int a) {
+        a = 100;
+    }
 }
 ```
 

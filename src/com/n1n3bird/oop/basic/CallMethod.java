@@ -1,4 +1,5 @@
-package com.n1n3bird.oop;
+package com.n1n3bird.oop.basic;
+
 // How to call methods in Java
 // Look at Student.java
 public class CallMethod {
