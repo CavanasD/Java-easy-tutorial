@@ -1,4 +1,4 @@
-#  
+# Hello, Jvav 
 注意，本笔记使用`jdk21`进行学习，前面的许多什么jdkjrejvm介绍，解释型语言与编译型语言的区别，java特性、优点、发展史，推荐观看[【狂神说Java】Java零基础学习视频通俗易懂]([https://www.bilibili.com/video/BV12J41137hu?p=23&vd_source=8ba8b48a842130e7e5302ef05a128736])
 （本菜狗会一些C++，所以很多东西略讲）
 
@@ -17,7 +17,7 @@ public class Main {
 ```
 非常简单
  # 0x2 数据类型 
-> [!caution] 
+> [!warning] 
 > Java 是一种**强类型语言**，这意味着每个变量都必须声明其类型
 > *==！！强类型！！==*
 ##  Primitive Type 原始类型
@@ -660,35 +660,32 @@ OOP本质：**以类的方式组织代码，以对象的组织封装数据**
 三大特性：封装继承多态
 
 ## 你再看看方法呢
-## 怎么调用？
+### 怎么调用？
 注意非static要实例化就行了
 ### 参数传递
 我写了例子
-
 ```java
-package com.n1n3bird.oop;
-
-import com.n1n3bird.oop.basic.Student;
-
-import static com.n1n3bird.oop.basic.Student.changeNameToNailong;
-
-public class FunnyArgs {
-    public static void main(String[] args) {
+package com.n1n3bird.oop;  
+  
+import static com.n1n3bird.oop.Student.changeNameToNailong;  
+  
+public class FunnyArgs {  
+    public static void main(String[] args) {  
         // 值传递  
-        int a = 1;
-        System.out.println(a);
-        changeValue(a);
-        System.out.println(a);
+        int a = 1;  
+        System.out.println(a);  
+        changeValue(a);  
+        System.out.println(a);  
         //引用传递  
-        Student n1n3bird = new Student();
-        System.out.println(n1n3bird.name);
-        changeNameToNailong(n1n3bird);
-        System.out.println(n1n3bird.name);
-    }
-
-    private static void changeValue(int a) {
-        a = 100;
-    }
+        Student n1n3bird = new Student();  
+        System.out.println(n1n3bird.name);  
+        changeNameToNailong(n1n3bird);  
+        System.out.println(n1n3bird.name);  
+    }  
+  
+    private static void changeValue(int a) {  
+        a = 100;  
+    }  
 }
 ```
 
@@ -710,4 +707,455 @@ ok，看输出结果，相当显然，传值和传对象显然不同
 传`Array` `Object` `String`等是会改变原有内容的，这叫`引用传递`
 传一些基本类型`int` `boolean` `char` 等，不会改变原有内容，这叫`值传递`（跟当时基本数据类型、引用数据类型也差不多）
 
+## 类与对象创建
+### 先看看怎么创建
+![[attachments/Pasted image 20260207220213.png]]
+没必要说了，至于this，后面会讲
+### 构造器
+使用new关键字创建的时候，除了分配内存空间之外，还会给创建好的对象 进行默认的初始化以及对类中构造器的调用（一个类即使什么也不写，）
+类中的`构造器`也称为`构造方法`，是在进行创建对象的时候必须要调用的。并且构造器有以下2个特点:
+1. 必须和类的名字相同
+2. 必须没有返回类型,也不能写void
+![[attachments/Pasted image 20260207233906.png]]
+注意看我的注释
+`Alt` + `INSERT` 可以快速生成构造函数
+- 内存部分这里暂时不再叙述，我只是想把这份note作为简单的语言笔记
+
+## 封装
+### 高内聚，低耦合
+- 高内聚就是类的内部数据操作细节自己完成，不允许外部干涉;低耦合:仅暴露少量的方法给外部使用。
+### 封装(数据的隐藏)
+- 通常，应禁止直接访问一个对象中数据的实际表示，而应通过操作接口来访问，这称为信息隐藏。
+
+![[attachments/Pasted image 20260209001259.png]]
+随便写几个get/set(`Alt` + `INSERT` 可以快速生成)
+跑一下，为什么输出是Nailong\n Nailong呢？
+事实上，虽然修改了 ZhiQiao 这个对象的内部属性，但是 hackerName这个变量仍然指向之前的旧字符串  （字符串在 Java 中是不可变的，且变量不会自动跟随  
+对象属性变化而更新）  
+ 
+## 继承
+看demo就好，extends关键字
+> [!tip] 
+Java里只有单继承
+
+![[attachments/Pasted image 20260210223951.png]]
+欸我们发现这里怎么这么多方法？其实，java中，所有的类都默认继承Object
+
+## Super关键字
+super注意点：
+1. super调用父类的构造方法，必须在构造方法的第一个
+2. super必须只能出现在子类的方法或者构造方法中！
+3. super和this不能同时调用构造方法！
+和this什么区别？
+代表的对象不同：
+	this:
+	本身调用者这个对象
+	super:
+	代表父类对象的应用
+前提
+	this：没继承也可以使用
+	super：只能在继承条件才可以使用
+
+## 方法重写
+![[attachments/Pasted image 20260211172057.png]]
+先运行一下，发现结果如图（这个是static，所以不会自动重写）
+![[attachments/Pasted image 20260211163558.png]]
+那如果我们重写呢？
+方法的调用只和左边的数据类型有关系
+
+```java
+package com.n1n3bird.oop.override;  
+  
+public class ExampleA extends ExampleB {  
+  
+    public static void test(){  
+        System.out.println("A test");  
+    }  
+    @Override  
+    public void test2(){  
+        System.out.println("A test2");  
+    }  
+}
+```
+这样就重写啦，输出发现两个输出都是A test2
+- 卧槽，这么难，好难分辨，实际上
+- **静态方法是类的方法，非静态是对象的方法**
+哈哈，这不就懂了
+重写：需要有继承关系，子类重写父类的方法！
+1. 方法名必须相同
+2. 参数列表列表必须相同
+3. 修饰符：范围可以扩大但不能缩小public>Protected>Default>private
+4. 抛出的异常：范围，可以被缩小，但不能扩大；ClassNotFoundException>Exception(大）
+重写，子类的方法和父类必要一致；方法体不同！
+## 多态
+### 方法调用规则（针对成员方法）：
+编译看左边：编译器检查引用类型（等号左边的类）中是否有该方法。如果没有，编译报错（如代码中的 n1n3bird.hack()，因为 Person 类中没有 hack 方法）。
+运行看右边：实际运行时，执行的是实际对象类型（等号右边的类）中重写的方法。如果子类重写了父类方法，则执行子类的方法；如果没重写，则执行父类的方法。
+### 成员变量规则：
+编译看左边，运行也看左边：多态只针对方法。如果是访问成员变量，编译器看引用类型，运行时获取的也是引用类型中的变量值，不看实际对象。
+### 多态的三大前提：
+有继承关系（Hacker extends Person）。
+有方法重写（Hacker 重写了 run()）。
+父类引用指向子类对象（Person p = new Hacker();）。
+
+这个直接看demo里，强制转换
+![[attachments/Pasted image 20260212204347.png]]
+
+## instanceof 和类型转换
+看一下多态的demo
+```java
+/*  
+instanceof 关键字简单笔记:  
+1. 作用：测试左边的对象是否是右边类的实例（或者是其子类的实例）。  
+2. 返回值：boolean 类型 (true/false)。  
+3. 编译通过条件：X instanceof Y，X 的引用类型与 Y 之间必须有父子关系，否则编译报错。  
+4. 运行结果：看 X 实际指向的对象是不是 Y 类型的子类/实现类。  
+*/  
+  
+// System.out.println(X instanceof Y); // 能不能编译通过？ -> X的引用类型 与 Y 是否有父子关系  
+// 结果是 true 还是 false？ -> X实际指向的对象 是不是 Y 的子类型  
+  
+// Object > Person > Hacker  
+// Object > String  
+// Teacher (假设有)  
+  
+System.out.println(klare instanceof Hacker); // true  
+System.out.println(klare instanceof Person); // true  
+System.out.println(klare instanceof Object); // true  
+System.out.println(klare instanceof String); // false  
+  
+System.out.println(n1n3bird instanceof Hacker); // true  
+System.out.println(n1n3bird instanceof Person); // true  
+System.out.println(n1n3bird instanceof Object); // true  
+// System.out.println(n1n3bird instanceof String); // 编译报错！Person 和 String 没关系  
+  
+System.out.println(shyler instanceof Hacker); // true  
+System.out.println(shyler instanceof Person); // true  
+System.out.println(shyler instanceof Object); // true  
+// System.out.println(shyler instanceof String); // 编译报错！Hacker 和 String 没关系
+```
+## static
+学到这，其实快学完了，但是static是不是还是有点蒙？毕竟离最开始的声明变量也有点远了
+其实就是初始化的时候是否加载，非static需要有对象哦
+- 加了 static：它是跟着类走的。类加载了它就有了，大家共用一份，不用 new 对象也能用。
+- 没加 static：它是跟着对象走的。必须先 new 出来一个对象，它才存在，每个对象各有一份。
+### 让Gemini大手子教一教我
+
+==static 修饰符用于创建类变量和类方法，它让属性和方法属于类本身，而不是属于某个具体的对象。==
+- 静态变量 (Static Variables):
+	被 static 修饰的变量，在内存中只有一份，会被所有对象共享。
+	推荐访问方式：类名.变量名 (例如 DaShen.age)。
+- 静态方法 (Static Methods):
+	可以通过 类名.方法名() 直接调用。
+- 重要限制：静态方法中不能直接调用非静态的方法或变量（因为它不依赖于对象存在，而非静态成员必须依赖对象）。
+- 代码块执行顺序 
+	静态代码块 (static { ... }): 类加载时执行，且只执行一次。通常用于初始化静态资源。
+	匿名代码块 ({ ... }): 每次创建对象（new）时都会执行，且在构造器之前执行。可以用来赋初值。
+- 构造方法: 创建对象时执行，在匿名代码块之后。
+	执行顺序总结：静态代码块 (一次) -> 匿名代码块 (多次) -> 构造方法 (多次)。
+- 静态导入 (Static Import):
+	用于导入类中的静态成员，导入后可以直接使用方法名或变量名，无需加类名。
+	语法：import static 包名.类名.静态成员; 或 import static 包名.类名.* ;
+	例如：import static java.lang.Math.random; 后，可直接写 random()。
+Talk is Cheap, Show me the code，
+```Java
+package com.n1n3bird.oop.fuckustatic;  
+  
+// 静态导入包  
+import static java.lang.Math.random;  
+import static java.lang.Math.PI;  
+  
+public class DaShen {  
+    private static int age;  
+    private double score;  
+  
+    public void run() {  
+        go(); // 非静态方法可以调用静态方法  
+    }  
+    public static void go() {  
+        System.out.println("go");  
+        // run(); // 静态方法不可以调用非静态方法  
+    }  
+    // 匿名代码块：创建对象时创建，在构造器之前  
+    {  
+        System.out.println("匿名代码块");  
+    }  
+  
+    // 静态代码块：类加载一刻执行，永久只执行一次  
+    static {  
+        System.out.println("静态代码块");  
+    }  
+  
+    // 构造方法  
+    public DaShen() {  
+        System.out.println("构造方法");  
+    }  
+  
+    public static void main(String[] args) {  
+        new DaShen();  
+        System.out.println("==================");  
+        new DaShen();  
+        System.out.println("==================");  
+        System.out.println(random());  
+        System.out.println(PI);  
+    }  
+}
+```
+## 抽象类
+
+不能 new：抽象类本质是约束，不能直接 new 出来，只能 new 它的子类。
+抽象方法：public abstract void doSomething();
+只有方法名字，没有方法体（没有花括号 {}）。
+必须存在于抽象类中。
+子类的责任：继承了抽象类的非抽象子类，**必须重写（实现）** 所有的抽象方法。
+共存：抽象类里可以写普通方法（哪怕它不能被 new，子类继承后也能直接用这些普通方法）。 
+```java
+public abstract class Action {  
+  
+    // 抽象方法，只有方法名字，没有方法的实现！  
+    public abstract void doSomething();  
+  
+    // 1. 不能new这个抽象类，只能靠子类去实现它：约束！  
+    // 2. 抽象类中可以写普通的方法~  
+    // 3. 抽象方法必须在抽象类中~  
+    // 抽象的抽象：约束~  
+    public void sayHello() {  
+        System.out.println("Hello");  
+    }  
+}
+```
+
+```java
+public class A extends Action {  
+    @Override  
+    public void doSomething() {  
+        System.out.println("A doSomething");  
+    }  
+}
+```
+
+## 接口定义、实现
+interface
+```java
+package com.n1n3bird.oop.jiekou;  
+  
+public interface UserService {  
+    // 定义方法都是 public abstract 的  
+    void addUser();  
+    void deleteUser();  
+    void updateUser();  
+    void queryUser();  
+    // 定义变量则都是 public static final    public static final String name = "n1n3bird";  
+}
+```
+
+```java
+package com.n1n3bird.oop.jiekou;  
+// Ctrl + i 实现接口的快捷键  
+// 接口可以实现多继承，类只能单继承~  
+public class UserServiceImpl implements  UserService,TimeService {  
+    @Override  
+    public void deleteUser() {  
+  
+    }  
+    @Override  
+    public void updateUser() {  
+  
+    }  
+    @Override  
+    public void queryUser() {  
+  
+    }  
+    @Override  
+    public void addUser() {  
+        System.out.println("添加用户");  
+    }  
+}
+```
+
+关键字：**契约** 、**规范**
+
+## 内部类
+看demo就可以
+```java
+package com.n1n3bird.oop.InsiderClass;  
+  
+public class OuterClass {  
+  
+    private int id = 10;  
+    public void out() {  
+        System.out.println("这是外部类的方法");  
+    }  
+  
+    // 1. 成员内部类  
+    public class Inner {  
+        public void in() {  
+            System.out.println("这是内部类的方法");  
+        }  
+  
+        // 获得外部类的私有属性  
+        public void getID() {  
+            System.out.println(id);  
+        }  
+    }  
+  
+    // 2. 静态内部类  
+    public static class StaticInner {  
+        public void in() {  
+            System.out.println("这是静态内部类的方法");  
+        }  
+    }  
+  
+    // 3. 局部内部类  
+    public void method() {  
+        class LocalInner {  
+            public void in() {  
+                System.out.println("这是局部内部类的方法");  
+            }  
+        }  
+    }  
+  
+}  
+// 4. 匿名内部类（没有名字初始化类，不用将实例保存到变量中）  
+class Test {  
+    public static void main(String[] args) {  
+        // 成员内部类实例化  
+        OuterClass outer = new OuterClass();  
+        // 通过外部类对象来实例化内部类  
+        OuterClass.Inner inner = outer.new Inner();  
+        inner.in();  
+        inner.getID();  
+        // 静态内部类实例化  
+        // 静态内部类可以直接实例化，不需要外部类对象  
+        // 注意：静态内部类无法直接访问外部类的非静态属性  
+        OuterClass.StaticInner staticInner = new OuterClass.StaticInner();  
+        staticInner.in();  
+        // 匿名内部类  
+        // 没有名字初始化类, 不用实例保存到变量中  
+        new Apple().eat();  
+        // 也可以实现接口  
+        new UserService() {  
+            @Override  
+            public void hello() {  
+                System.out.println("Hello from Anonymous Inner Class");  
+            }  
+        };  
+    }  
+}  
+  
+class Apple {  
+    public void eat() {  
+        System.out.println("1");  
+    }  
+}  
+  
+interface UserService {  
+    void hello();  
+}
+```
+
 # 0x7 Final Chapter——异常
+
+## Error & Exception
+Java把异常当作对象来处理，并定义一个基类java.lang.Throwable作为所有异常的超类。
+在JavaAPl中已经定义了许多异常类，这些异常类分为两大类，错误Error和异常Exception
+![[attachments/Pasted image 20260217233625.png]]
+- 检查性异常：最具代表的检查性异常是用户错误或问题引起的异常，这是程序员无法预见的。
+	例如要打开一个不存在文件时，一个异常就发生了，这些异常在编译时不能被简单地忽略。
+- 运行时异常：运行时异常是可能被程序员避免的异常。与检查性异常相反，运行时异常可以在编译时被忽略。
+- 错误：错误不是异常，而是脱离程序员控制的问题。错误在代码中通常被忽略。例如，当栈溢出时，一个错误就发生了，它们在编译也检查不到的
+- Error类对象由Java虚拟机生成并抛出大多数错误与代码编写者所执行的操作无关。
+- Java虚拟机运行错误(VirtualMachineError)，当JVM不再有继续执行操作所需的内存资源时，将出现OutOfMemoryError。这些异常发生时，Java虚拟机(JVM)一般会选择线程终止；
+- 
+还有发生在虚拟机试图执行应用时，如:
+	类定义错误（NoClassDefFoundError）、链接错误（LinkageError）。这些错误是不可查的，因为它们在应用程序的控制和处理能力之外，而且绝大多数是程序运行时不允许出现的状况
+
+在Exception分支中有一个重要的子类RuntimeException(运行时异常）
+- ArrayIndexOutOfBoundsException(数组下标越界) 
+- NullPointerException(空指针异常)
+- ArithmeticException(算术异常)
+- MissingResourceException(丢失资源)
+- ClassNotFoundException（找不到类）等异常，这些异常是不检查异常，程序中可以选择捕获处理，也可以不处理。
+	这些异常一般是由程序逻辑错误引起的，程序应该从逻辑角度尽可能避免这类异常的发生；
+	
+Error和Exception的区别：
+	Error通常是灾难性的致命的错误，是程序无法控制和处理的，当出现这些异常时，JVM一般会选择终止线程；Exception通常情况下是可以被程序处理的，并且在程序中应该尽可能的去处理这些异常。
+## 捕获和抛出异常
+```java
+package com.n1n3bird.yichang;  
+  
+public class Demo {  
+    // 异常笔记：  
+    // 1) Throwable 是所有异常/错误的父类：Error(程序通常不处理) vs Exception(可处理)。  
+    // 2) Exception 分为编译期异常(必须处理/throws)与运行时异常(可不处理，但会崩)。  
+    // 3) 处理方式：try-catch-finally；也可在方法上用 throws 抛给上层。  
+    // 4) throw 用于主动抛出异常；自定义异常继承 Exception 或 RuntimeException。  
+  
+    public static void main(String[] args) {  
+        System.out.println("=== try-catch-finally ===");  
+        int result = safeDivide("10", "0");  
+        System.out.println("result = " + result);  
+  
+        System.out.println("\n=== throws / throw / 自定义异常 ===");  
+        try {  
+            registerUser(" ");  
+        } catch (UserInputException e) {  
+            System.out.println("caught: " + e.getMessage());  
+        }  
+  
+        System.out.println("\n=== 受检异常示例 ===");  
+        try {  
+            parsePositiveInt("-3");  
+        } catch (Exception e) {  
+            System.out.println("caught: " + e.getMessage());  
+        }  
+    }  
+  
+    // 运行时异常示例：被 0 除会抛 ArithmeticException    private static int safeDivide(String a, String b) {  
+        try {  
+            int x = Integer.parseInt(a);  
+            int y = Integer.parseInt(b);  
+            return x / y;  
+        } catch (NumberFormatException e) {  
+            System.out.println("输入不是数字: " + e.getMessage());  
+            return 0;  
+        } catch (ArithmeticException e) {  
+            System.out.println("除数不能为 0: " + e.getMessage());  
+            return 0;  
+        } finally {  
+            System.out.println("finally 一定会执行");  
+        }  
+    }  
+  
+    // throws：把异常交给调用者处理  
+    private static int parsePositiveInt(String s) throws Exception {  
+        int v = Integer.parseInt(s);  
+        if (v <= 0) {  
+            throw new Exception("必须是正整数");  
+        }  
+        return v;  
+    }  
+  
+    // throw：主动抛出自定义异常  
+    private static void registerUser(String name) {  
+        if (name == null || name.trim().isEmpty()) {  
+            throw new UserInputException("用户名不能为空");  
+        }  
+        System.out.println("注册成功: " + name);  
+    }  
+}  
+  
+class UserInputException extends RuntimeException {  
+    public UserInputException(String message) {  
+        super(message);  
+    }  
+}
+```
+
+# 完结有感
+也算是用了大半个假期的时间，从头听了一遍Java SE，以前写mod接触过一些，不过现在看来当时还是皮毛，哈哈
+收获很大，结合着C++的概念理解， JavaSE并不难，可能OOP部分有些地方稍微有点绕
+## 纸上得来终觉浅，绝知此事要躬行
+继续加油！
+
+Finished By N1n3Bird -- 2026/2/17 大年初一![[attachments/7D963EA950DF100577AEA3CC87EF49F9.gif]]![[attachments/firefly.png]]流萤可爱喵
